@@ -16,3 +16,5 @@ Scan8 uses ClamAV open-source antivirus project as the scan engine and Google gv
 - **Master/Distribution script** is responsible for periodically appending jobs to the smallest queue of a scanner node.  
 - **Scanner script** pops the front file/URL from the job queue and makes it available for the ClamAV script.  
 - **ClamAV script** runs the scan on the required file/URL.  
+
+![Project Workflow Diagram](https://github.com/maanas-talwar/Scan8/blob/main/Scan8.png?raw=true)
