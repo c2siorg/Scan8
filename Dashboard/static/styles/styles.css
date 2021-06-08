@@ -41,3 +41,9 @@ h4 {
       width: 100%;
   }
 }
+
+@media only screen and (max-width: 700px) {
+    body {
+        padding: 3% 10%;
+    }
+}
