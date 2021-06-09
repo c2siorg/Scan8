@@ -1,4 +1,4 @@
-body {
+.container {
     padding: 3% 20%;
 }
 
@@ -15,35 +15,22 @@ h4 {
     padding: 1% 12% 1% 5%;
 }
 
-.scanItem {
+.row {
     border-style: solid;
     border-width: medium;
     border-radius: 5px;
     padding: 2% 3% 1%;
-    overflow: auto;
     margin: 0 2% 2%;
 }
 
-.column {
-    float: left;
-    padding: 0 7% 0 0;
-}
-
-.lastColumn {
-    float: right;
-    width: 40%;
-    align-items: stretch;
-    vertical-align: middle;
-}
-
-@media only screen and (max-width: 1420px) {
-  .lastColumn {
-      width: 100%;
+@media only screen and (max-width: 576px) {
+  .row {
+      padding: 3%;
   }
 }
 
 @media only screen and (max-width: 700px) {
-    body {
+    .container {
         padding: 3% 10%;
     }
 }
