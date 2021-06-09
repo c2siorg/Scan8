@@ -1,0 +1,36 @@
+.container {
+    padding: 3% 20%;
+}
+
+button {
+    float: right;
+    margin-bottom: 1% !important;
+}
+
+h4 {
+    clear: right;
+}
+
+.list {
+    padding: 1% 12% 1% 5%;
+}
+
+.row {
+    border-style: solid;
+    border-width: medium;
+    border-radius: 5px;
+    padding: 2% 3% 1%;
+    margin: 0 2% 2%;
+}
+
+@media only screen and (max-width: 576px) {
+  .row {
+      padding: 3%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+    .container {
+        padding: 3% 10%;
+    }
+}
