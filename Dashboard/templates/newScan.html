@@ -44,16 +44,13 @@
     <script>
         function update() {
             var numFiles = document.getElementById('customFile').files.length;
+            var msg;
             if(numFiles > 0) {
                 document.getElementById('upload').disabled = false;
+                msg = numFiles + ' file(s) uploaded';
             } else {
                 document.getElementById('upload').disabled = true;
-            }
-            var msg;
-            if (numFiles == 0) {
                 msg = "Choose File";
-            } else {
-                msg = numFiles + ' file(s) uploaded';
             }
             document.getElementById('chooseFileLabel').textContent = msg;
         }
