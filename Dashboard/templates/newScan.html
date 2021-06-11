@@ -52,10 +52,8 @@
             var msg;
             if (numFiles == 0) {
                 msg = "Choose File";
-            } else if (numFiles == 1) {
-                msg = numFiles + ' file uploaded';
             } else {
-                msg = numFiles + ' files uploaded';
+                msg = numFiles + ' file(s) uploaded';
             }
             document.getElementById('chooseFileLabel').textContent = msg;
         }
