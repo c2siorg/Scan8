@@ -15,7 +15,7 @@ h4 {
     padding: 1% 12% 1% 5%;
 }
 
-.row {
+.indexRow {
     border-style: solid;
     border-width: medium;
     border-radius: 5px;
@@ -23,8 +23,12 @@ h4 {
     margin: 0 2% 2%;
 }
 
+.hide {
+    visibility: hidden;
+}
+
 @media only screen and (max-width: 576px) {
-  .row {
+  .indexRow {
       padding: 3%;
   }
 }
