@@ -2,8 +2,9 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# TODO: add a caching layer to all routes
 
-@app.route('/')
+
 def index():
     # TODO: connect mongoDB and retrieve data to lists
 
@@ -27,6 +28,10 @@ def index():
     return render_template('index.html', queued=queued, running=running, completed=completed)
 
 
-@app.route('/newScan')
 def new_scan():
     return render_template('newScan.html')
+
+
+app.add_url_rule("/", endpoint="dashboard", view_func=index, methods=['GET'])
+app.add_url_rule("/newScan", endpoint="newScan",
+                 view_func=new_scan, methods=['GET'])
