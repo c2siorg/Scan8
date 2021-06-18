@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="../static/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
 
     <!-- Bootstrap css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -21,140 +21,107 @@
 
 
         <h1>Scan8</h1>
-        <button type="button" name="button" class="btn btn-outline-secondary">New Scan</button>
+        <button type="button" name="button" class="btn btn-outline-secondary" onclick="openUploader()">New Scan</button>
 
         <h4>Queued Scans</h4>
         <div class="list">
+            {% for item in prequeued %}
             <div class="indexRow row">
                 <div class="col-sm">
-                    <h6>Scan #--</h6>
-                    <h6>Submitted: --:--:--</h6>
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
                 </div>
                 <div class="col-sm">
-                    <h6>Size: --</h6>
-                    <h6>Number of files: --</h6>
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
                     <div class="progress">
-                        <div class="progress-bar" style="width: 0%;"></div>
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            
+            {% for item in queued %}
             <div class="indexRow row">
                 <div class="col-sm">
-                    <h6>Scan #3(Resubmitted)</h6>
-                    <h6>Submitted: --:--:--</h6>
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
                 </div>
                 <div class="col-sm">
-                    <h6>Size: --</h6>
-                    <h6>Number of files: --</h6>
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
                     <div class="progress">
-                        <div class="progress-bar" style="width: 0%;"></div>
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
 
         <h4>Running Scans</h4>
         <div class="list">
+            {% for item in running %}
             <div class="indexRow row">
                 <div class="col-sm">
-                    <h6>Scan #1</h6>
-                    <h6>Submitted: 05:30:00</h6>
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
                 </div>
                 <div class="col-sm">
-                    <h6>Size: 4GB</h6>
-                    <h6>Number of files: 1000</h6>
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
                     <div class="progress">
-                        <div class="progress-bar" style="width: 75%;"></div>
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #2</h6>
-                    <h6>Submitted: 15:00:00</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: 1GB</h6>
-                    <h6>Number of files: 100</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 50%;"></div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <h4>Completed Scans</h4>
         <div class="list">
+            {% for item in completed %}
             <div class="indexRow row">
                 <div class="col-sm">
-                    <h6>Scan #1</h6>
-                    <h6>Submitted: 00:00:00</h6>
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
                 </div>
                 <div class="col-sm">
-                    <h6>Size: 4GB</h6>
-                    <h6>Number of files: 1000</h6>
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
                     <div class="progress">
-                        <div class="progress-bar" style="width: 100%;"></div>
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 100%;"></div>
                     </div>
                 </div>
             </div>
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #1</h6>
-                    <h6>Submitted: 00:00:00</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: 4GB</h6>
-                    <h6>Number of files: 1000</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #1</h6>
-                    <h6>Submitted: 00:00:00</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: 4GB</h6>
-                    <h6>Number of files: 1000</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #1</h6>
-                    <h6>Submitted: 00:00:00</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: 4GB</h6>
-                    <h6>Number of files: 1000</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
+
+    <script>
+        function openUploader() {
+            window.location = "{{ newScanUrl }}";
+        }
+    </script>
+    
+    <script>
+        var source = new EventSource("/progress");
+        source.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            
+            for(id in data) {
+                var bar = document.getElementById(id);
+                bar.style.width = data[id]+'%';
+            }
+        }
+    </script>
 </body>
 
 </html>
