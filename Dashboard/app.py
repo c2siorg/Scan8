@@ -6,11 +6,17 @@ import uuid
 from pymongo import MongoClient
 import json
 from hurry.filesize import size, si
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '../Uploads'
+app.config['UPLOAD_FOLDER'] = os.getenv("UPLOAD_DIRECTORY")
 
-client = MongoClient('localhost', 27017)
+mongodbHost = os.getenv("MONGODB_HOST")
+mongodbPort = int(os.getenv("MONGODB_PORT"))
+
+client = MongoClient(mongodbHost, mongodbPort)
 scan8 = client['scan8']
 prequeuedScans = scan8['prequeuedScans']
 queuedScans = scan8['queuedScans']
