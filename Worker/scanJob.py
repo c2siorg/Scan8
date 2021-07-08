@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import clamd
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
@@ -20,13 +21,16 @@ completedScans = scan8['completedScans']
 # RQ job
 def scan(filePath):
     id = filePath.split("/")[-2]
+    name = filePath.split("/")[-1]
     queued = list(queuedScans.find({"_id": id}))
     if(len(queued) != 0):
         runningScans.insert_one(queued[0])
         queuedScans.delete_one({"_id": id})
     result = cd.scan(filePath)
-    
-    print(result)
+    filename = id+"_"+name+"_"+".json"
+    filename = resultsPath+"/"+filename
+    with open(filename, "a+") as file:
+        json.dump(result, file, indent=4)
     
     runningScans.update_one({"_id": id}, {'$inc': {'files.completed': 1}})
 
