@@ -18,6 +18,7 @@ Scan8 is a Kubernetes based rapid URL/File scan system that allows to submit a l
 7. Run the coordinator node application using ```python3 app.py```.
 8. Access another terminal and move to the ```Worker``` directory.
 9. Run the worker node application using ```python3 app.py```.
+10. Create ```Uploads``` and ```Results``` directories in the project directory.
 
 ## Usage
 1. After following the ```Local setup guide```, use any web browser to access the IP address mentioned in the terminal after running ```flask run``` (by default it is ```http://127.0.0.1:5000/```).
