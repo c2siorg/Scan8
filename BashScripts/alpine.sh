@@ -21,3 +21,4 @@ do
   7z x -p"infected" $i -o/home/flask/realvirus
 done
 clamdscan /home/flask/realvirus
+

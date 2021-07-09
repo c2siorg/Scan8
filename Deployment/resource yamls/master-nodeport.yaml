@@ -10,3 +10,4 @@ spec:
       - port: 80 
         nodePort: 30108
         name: http
+        
