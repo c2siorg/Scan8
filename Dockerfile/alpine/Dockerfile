@@ -15,3 +15,4 @@ RUN apk update \
 RUN freshclam 
 
 ENTRYPOINT [ "/home/flask/entryPoint.sh" ]
+
