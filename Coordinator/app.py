@@ -3,7 +3,7 @@ import os
 import sys
 import clamd
 from redis import Redis
-from rq import Queue
+from rq import Queue, Retry
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
             for file in os.listdir(dir):
                 # add to RQ
-                q.enqueue(scan, dir + "/" + file)
+                q.enqueue(scan, dir + "/" + file, job_timeout=1, retry=Retry(max=2))
                 
             queuedScans.insert_one(prequeued[0])
             prequeuedScans.delete_one({"_id": id})
