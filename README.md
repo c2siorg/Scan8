@@ -5,7 +5,7 @@ Scan8 is a Kubernetes based rapid URL/File scan system that allows to submit a l
 ## Dependencies:
 * Language: ```Python 3.8.10```
 * Database: ```MongoDB```
-* redis-server
+* Tools: ```redis-server clamav clamav-daemon```
 
 > Specific dependencies for the ```Dashboard```, ```Coordinator``` and ```Worker``` can be found in the respective directories in ```requirements.txt``` file.
 
