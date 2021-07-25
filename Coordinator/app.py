@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-workerPath = os.getenv("WORKER_PATH")
+utilitiesPath = os.getenv("UTILITIES_PATH")
 
-sys.path.insert(0, workerPath)
+sys.path.insert(0, utilitiesPath)
 from scanJob import scan
 
 q = Queue(connection=Redis())
@@ -36,6 +36,6 @@ if __name__ == '__main__':
             for file in os.listdir(dir):
                 # add to RQ
                 q.enqueue(scan, dir + "/" + file, job_timeout=1, retry=Retry(max=2))
-                
+
             queuedScans.insert_one(prequeued[0])
             prequeuedScans.delete_one({"_id": id})

@@ -1,10 +1,15 @@
 import os
+import sys
 import redis
 from rq import Worker, Queue, Connection
-import scanJob
 from dotenv import load_dotenv
 
 load_dotenv()
+
+utilitiesPath = os.getenv("UTILITIES_PATH")
+
+sys.path.insert(0, utilitiesPath)
+from scanJob import scan
 
 listen = ['default']
 
