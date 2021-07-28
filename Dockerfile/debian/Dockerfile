@@ -14,3 +14,4 @@ RUN apt-get update -y \
 RUN freshclam 
 
 ENTRYPOINT [ "/home/flask/entryPoint.sh" ]
+

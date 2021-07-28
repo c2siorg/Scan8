@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: slave-headless
+spec:
+  clusterIP: None
+  selector:
+    app: slave
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    
