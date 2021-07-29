@@ -8,24 +8,24 @@ RUN apt-get update -y && \
     && chmod -R 777 /run/clamav\
     && chmod a+rwx /var/log/clamav/ 
 
-#Running Freshclam for downloading virus definations
+#running freshclam for downloading virus definations
 RUN freshclam
 
-#Working Directory
+#working Directory
 WORKDIR /app
 
-#Copying Script which will run python files and ClamAV daemon
+#copying script which will run python files and clamAV daemon
 COPY entryPoint.sh /app/
 
-#Copying Worker files to container working directory
+#copying required modules and files into the container
 COPY ./Worker /app/Worker
 
 COPY ./Utilities /app/Utilities
 
 COPY .env /app/
 
-#Installing Modules
+#installing Modules
 RUN pip3 install -r Worker/requirements.txt
 
-#Starting the Script
+
 ENTRYPOINT [ "/app/entryPoint.sh" ]
