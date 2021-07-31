@@ -86,3 +86,5 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+if __name__ == "__main__":
+    app.run(host="0.0.0.0",debug=True)
