@@ -1,5 +1,5 @@
 #base image ubuntu
-FROM ubuntu:18.04
+FROM debian:jessie
 
 WORKDIR /home/flask
 
@@ -14,3 +14,4 @@ RUN apt-get update -y \
 RUN freshclam 
 
 ENTRYPOINT [ "/home/flask/entryPoint.sh" ]
+

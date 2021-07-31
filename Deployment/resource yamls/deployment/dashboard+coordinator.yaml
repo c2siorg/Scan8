@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-coordinator
+spec:    
+  selector:
+    matchLabels:
+      app: dashboard-coordinator
+  template:
+    metadata:
+      labels:
+        app: dashboard-coordinator
+    spec:
+      volumes:
+        - name: scan8-common
+          persistentVolumeClaim:
+            claimName: scan8pvc1
+      containers:
+      - name: dashboard-coordinator
+        image: scan8-dashboard:latest
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "800m"
+        ports:
+        - containerPort: 5000
+        stdin: true
+        tty: true
+        volumeMounts:
+          - mountPath: "/app/common/"
+            name: scan8-common
+            
