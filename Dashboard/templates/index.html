@@ -42,7 +42,7 @@
                 </div>
             </div>
             {% endfor %}
-            
+
             {% for item in queued %}
             <div class="indexRow row">
                 <div class="col-sm">
@@ -110,18 +110,24 @@
             window.location = "{{ newScanUrl }}";
         }
     </script>
-    
+
     <script>
         var source = new EventSource("/progress");
         source.onmessage = function(event) {
             var data = JSON.parse(event.data);
-            
+
             for(id in data) {
                 var bar = document.getElementById(id);
                 bar.style.width = data[id]+'%';
             }
         }
     </script>
+    <script>
+        setTimeout(function() {
+          window.location.reload(1);
+        }, 5000);
+    </script>
+
 </body>
 
 </html>
