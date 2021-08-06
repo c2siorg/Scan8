@@ -20,9 +20,12 @@ spec:
         image: scan8-worker
         imagePullPolicy: Never
         resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "500"
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "1024Mi"
+            cpu: "1000"
         stdin: true
         tty: true
         volumeMounts:
