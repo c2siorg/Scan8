@@ -13,7 +13,7 @@ utilitiesPath = os.getenv("UTILITIES_PATH")
 sys.path.insert(0, utilitiesPath)
 from scanJob import scan
 
-q = Queue(connection=Redis(host='redis-service',port=6379,decode_responses=True))
+q = Queue(connection=Redis())
 
 uploadDirPath = os.getenv("UPLOAD_DIRECTORY")
 
