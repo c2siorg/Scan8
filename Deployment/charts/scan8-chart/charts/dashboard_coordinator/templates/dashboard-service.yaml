@@ -8,4 +8,4 @@ spec:
     app: dashboard-coordinator                           #selctor for deployment
   ports:
   - port: 5000                                           #target port for container in pod
-    nodePort: 30109                                      #target port for the service
+    nodePort: 30110                                      #target port for the service
