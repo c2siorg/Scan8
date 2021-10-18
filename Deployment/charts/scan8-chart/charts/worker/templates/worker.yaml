@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:    
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      volumes:
+        - name: scan8-common
+          persistentVolumeClaim:
+            claimName: scan8pvc1
+      containers:
+      - name: worker
+        image: scan8-worker
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "300m"
+        stdin: true
+        tty: true
+        volumeMounts:
+          - mountPath: "/app/common/"
+            name: scan8-common
+
