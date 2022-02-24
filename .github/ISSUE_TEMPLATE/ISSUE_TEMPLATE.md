@@ -27,7 +27,8 @@ Please provide detailed steps for reproducing the issue.
 2. step 2
 3. you get it...
 
-## Context
+## Context 
+**[THIS SECTION MAY BE DELETED IF IRREVELANT TO THE ISSUE]**
 
 Please provide any relevant information about your setup. This is important in case the issue is not reproducible except for under certain conditions.
 
