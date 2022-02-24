@@ -14,18 +14,17 @@ Please delete options that are not relevant.
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
 
-# How Has This Been Tested?
+# Testing
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+The application comes with a test suite to help users ensure correct installation and help developers verify any updates.
 
-- [ ] Test A
-- [ ] Test B
+- [ ] `Results` and `Uploads` directories are empty.
+- [ ] MongoDB collections are empty.
+- [ ] **Scan8** application is up and running.
+- [ ] Run the test suite using `python3 app.py -v`.
+- [ ] Run a single scan using the Scan8 dashboard and wait till completion.
+- [ ] Run the test suite again using `python3 app.py -v`.
 
-**Test Configuration**:
-* Firmware version:
-* Hardware:
-* Toolchain:
-* SDK:
 
 # Checklist:
 
