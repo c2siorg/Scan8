@@ -16,16 +16,15 @@ Please delete options that are not relevant.
 
 # Testing
 
-The application comes with a test suite to help users ensure correct installation and help developers verify any updates.
+The application comes with a test suite to help users ensure correct installation and help developers verify any updates. 
 
-- [ ] `Results` and `Uploads` directories are empty.
-- [ ] MongoDB collections are empty.
-- [ ] **Scan8** application is up and running.
-- [ ] Run the test suite using `python3 app.py -v`.
-- [ ] Run a single scan using the Scan8 dashboard and wait till completion.
-- [ ] Run the test suite again using `python3 app.py -v`.
+The following tests should return **ok** status upon running the unit-test command `python3 app.py -v` from the `/Testing` directory.
 
-
+- [ ] `testResultsJSON`
+- [ ] `testResults`
+- [ ] `testUploads`
+- [ ] `testResultsDirectoryPresent`
+- [ ] `testUploadsDirectoryPresent`
 # Checklist:
 
 - [ ] My code follows the style guidelines of this project
