@@ -26,12 +26,15 @@ The ```Testing``` module helps in maintaining the application and facilitating t
 3. Make sure the ```mongod``` and ```clamav-daemon``` services are running in the background.
 4. Check the ```.env``` file to have the appropriate MongoDB and Redis host and port (variables are set to defaults).
 5. Access the terminal and move to the ```Dashboard``` directory.
-6. Run the flask application using ```export FLASK_APP=app.py``` followed by ```flask run```.
-7. Access another terminal and move to the ```Coordinator``` directory.
-8. Run the coordinator node application using ```python3 app.py```.
-9. Access another terminal and move to the ```Worker``` directory.
-10. Run the worker node application using ```python3 app.py```.
-11. Create ```Uploads``` and ```Results``` directories in the project directory.
+6. Run ```pip install -r requirements.txt``` for installing all the required dependencies.
+7. Run the flask application using ```export FLASK_APP=app.py``` followed by ```flask run```.
+8. Access another terminal and move to the ```Coordinator``` directory.
+9. Run ```pip install -r requirements.txt``` for installing all the required dependencies.
+10. Run the coordinator node application using ```python3 app.py```.
+11. Access another terminal and move to the ```Worker``` directory.
+12. Run ```pip install -r requirements.txt``` for installing all the required dependencies.
+13. Run the worker node application using ```python3 app.py```.
+14. Create ```Uploads``` and ```Results``` directories in the project directory.
 
 
 ## Usage
@@ -45,7 +48,8 @@ The application comes with a test suite to help users ensure correct installatio
 2. Ensure the MongoDB collections are empty.
 3. Ensure the scan8 application is up and running.
 4. Access a terminal and move to the ```Testing``` directory.
-5. Run the test suite using ```python3 app.py -v```.
+5. Run ```pip install -r requirements.txt``` for installing all the required dependencies.
+6. Run the test suite using ```python3 app.py -v```.
 7. Run a single scan using the Scan8 dashboard and wait till completion.
 8. Run the test suite again using ```python3 app.py -v```.
 
