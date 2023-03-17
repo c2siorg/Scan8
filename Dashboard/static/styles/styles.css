@@ -1,12 +1,26 @@
 .container {
     padding: 3% 20%;
+    margin-top: 100px;
+    position: relative;
+    border-radius: 10px;
+    background-color: #fff;
+   box-shadow: 0 5px 10px 2px rgb(0 0 0 / 7%);
+   height: auto;
+   padding: 61px 66px !important;
+   position: relative;
+   display: inline-block;
+   top: -100px;
+   width: 1070px;
+   display: inherit;
 }
 
-button {
-    float: right;
-    margin-bottom: 1% !important;
-}
+.row {
 
+    margin-top: 60px; 
+}
+.btn-outline-danger,.btn-outline-success{
+    width: 100%;
+}
 h4 {
     clear: right;
 }
@@ -37,4 +51,167 @@ h4 {
     .container {
         padding: 3% 10%;
     }
+}
+
+.about-service-container {
+    background-color: #fff;
+    box-shadow: 0 5px 10px 2px rgb(0 0 0 / 7%);
+    height: auto;
+    padding: 61px 66px;
+    position: relative;
+    display: inline-block;
+    top: -100px;
+    left: 10%;
+    width: 1070px;
+}
+
+.about-service-container .about-service-content {
+    display: inline-block;
+}
+
+.about-service-container .about-service-content .leftSection {
+    display: inline-block;
+    vertical-align: top;
+    width: 360px;
+}
+
+.about-service-container .about-service-content .leftSection .about-service-info {
+    display: inline;
+}
+
+.about-service-container .about-service-content .leftSection .service-image {
+    width: 315px;
+    height: 216px;
+    margin-top: 55px;
+    margin-bottom: 46px;
+}
+
+.about-service-container .about-service-content .leftSection .redirectToCritiqueSection {
+    text-align: center;
+    width: 316px;
+
+}
+
+.about-service-container .about-service-content .rightSection {
+    display: inline-block;
+    vertical-align: top;
+    width: 564px;
+    border: 2px dashed #a9a9a9;
+    padding: 39px 33px 52px;
+    text-align: center;
+    min-height: 418px;
+}
+
+.about-service-container .about-service-content .rightSection .uploadHeading {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.about-service-container .about-service-content .rightSection .uploadSubHeading {
+    color: #414c5f;
+
+    font-size: 14px;
+    margin: 10px auto 15px;
+}
+
+.materialize *,
+.materialize :after,
+.materialize :before {
+    box-sizing: inherit;
+}
+
+.about-service-container .about-service-content .rightSection .dragNdrop {
+    margin-top: 7px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.about-service-container .about-service-content .rightSection .browseText {
+    color: #414c5f;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.about-service-container .about-service-content .rightSection .sizeRestriction {
+    font-size: 10px;
+    color: #536777;
+}
+.about-service-container .about-service-content .rightSection .fileUploadBtn .file-upload-image {
+width: 79px;
+height: 73px;
+display: block;
+margin: 0 auto;
+}
+.about-service-container .about-service-content .rightSection .browseText {
+color: #414c5f;
+font-size: 14px;
+margin-bottom: 8px;
+}
+button, input {
+margin-top: 50px;
+margin-left: 112px;
+}
+h4{
+font-size: 1.5rem;
+
+display: inline-block;
+}
+h6{
+margin-bottom: 50px !important;
+}
+
+.rcq-bgWrap {
+width: 100%;
+height: 290px;
+position: absolute;
+background: url(https://static.naukimg.com/s/7/123/i/bg-image.ba9809cb.jpg) no-repeat;
+margin-top: -100px;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-size: cover;
+    color: black;
+    padding-top: 50px;
+}
+
+
+h1 {
+    font-size: 3em;
+}
+
+.container .btn {
+    margin-top: -10px;
+    float: right;
+    margin-bottom: 1% !important;
+    font-size: 1.2em;
+    padding: 20px;
+    border-radius: 50px;
+    background-color: transparent;
+}
+
+.container .btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.list {
+    margin-top: 50px;
+}
+
+.indexRow {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.progress-bar {
+    background-color: #00bcd4;
+}
+
+
+.upload-container{
+    margin-top: 100px;
+    position: relative;
 }
