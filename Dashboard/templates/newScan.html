@@ -5,47 +5,77 @@
     <meta charset="utf-8">
 
     <!-- custom css -->
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <title>Scan8: New Scan</title>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Scan8</h1>
-        <button type="button" name="button" class="btn btn-outline-secondary hide">New Scan</button>
-
-        <h4>New Scan</h4>
+    <div class="rcq-bgWrap"></div>
+    <div class="upload-container">
+      
+        <!-- <button type="button" name="button" class="btn btn-outline-secondary hide">New Scan</button> -->
         <form action='/upload' method="POST" enctype="multipart/form-data">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="dir" id="customFile" onchange="update()" webkitdirectory mozdirectory>
-                <label class="custom-file-label" for="customFile" id="chooseFileLabel">Choose file</label>
-            </div>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm d-flex justify-content-center">
-                        <a href="/"class="btn btn-outline-danger">Cancel</a>
+            <div class="about-service-container">
+                <h1>Scan8</h1>
+                <div class="about-service-content" id="dropzone">
+                    <div class="leftSection">
+                        <div class="about-service-info">
+                            <div class="about-service-header">
+                                <div>Drop your Files and Scan</div>
+                                <div>for any virus, malware, infection in a realtime!</div>
+                            </div>
+                        </div><img class="service-image"
+                            src="https://static.naukimg.com/s/7/123/i/analyseReport.f0a6db05.png">
+                        <div class="redirectToCritiqueSection">
+                            <div class="critiqueLinkText">Get instant scan results</div><a
+                                href="/" class="linkToCritique">Stay ahead of cyber threats with Scan8 !</a>
+                        </div>
                     </div>
-                    <div class="col-sm d-flex justify-content-center">
-                        <input class="btn btn-outline-success" type='submit' value='Upload' id="upload" disabled>
+                    <div class="rightSection">
+                        <div>
+                            <div class="uploadHeading">Submit URLs or Files to scan</div>
+                            <div class="uploadSubHeading">Fast and reliable threat detection</div>
+                           
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="dir" id="customFile" onchange="update()" webkitdirectory mozdirectory>
+                                        <label class="custom-file-label" for="customFile" id="chooseFileLabel">Choose file</label>
+                            <div id="progressBar"></div>
+                            <div class="dragNdrop">Drag &amp; Drop your files here</div>
+                            <div class="browseText">or <span class="browse">Browse</span> to choose file</div>
+                            <div class="sizeRestriction">pdf, doc, docx - 2MB max file we support</div>
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-sm d-flex justify-content-center">
+                                <a href="/"class="btn btn-outline-danger">Cancel</a>
+                            </div>
+                            <div class="col-sm d-flex justify-content-center">
+                                <input class="btn btn-outline-success" type='submit' value='Upload' id="upload" disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
+               
+                  
+                
             </div>
         </form>
     </div>
-    
+
     <script>
         function update() {
             var numFiles = document.getElementById('customFile').files.length;
             var msg;
-            if(numFiles > 0) {
+            if (numFiles > 0) {
                 document.getElementById('upload').disabled = false;
                 msg = numFiles + ' file(s) uploaded';
             } else {
@@ -60,3 +90,4 @@
 </body>
 
 </html>
+

@@ -3,27 +3,28 @@
 
 <head>
     <meta charset="utf-8">
-
-    <!-- custom css -->
+   <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Scan8</title>
 </head>
 
 <body>
+    <div class="rcq-bgWrap"></div>
     <div class="container">
 
 
         <h1>Scan8</h1>
+        <h6>Powerful scanning made easy</h6>
         <button type="button" name="button" class="btn btn-outline-secondary" onclick="openUploader()">New Scan</button>
 
-        <h4>Queued Scans</h4>
+        <h4 style="color:red">Queued Scans</h4>
         <div class="list">
             {% for item in prequeued %}
             <div class="indexRow row">
@@ -62,7 +63,7 @@
             {% endfor %}
         </div>
 
-        <h4>Running Scans</h4>
+        <h4 style="color:darkgoldenrod">Running Scans</h4>
         <div class="list">
             {% for item in running %}
             <div class="indexRow row">
@@ -83,7 +84,7 @@
             {% endfor %}
         </div>
 
-        <h4>Completed Scans</h4>
+        <h4 style="color:green">Completed Scans</h4>
         <div class="list">
             {% for item in completed %}
             <div class="indexRow row">
@@ -122,7 +123,7 @@
             }
         }
     </script>
-    <script>
+     <script>
         setTimeout(function() {
           window.location.reload(1);
         }, 5000);
