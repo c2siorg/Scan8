@@ -59,7 +59,7 @@ def upload_files():
             
         scan8.prequeuedScans.insert_one(
             {"_id": str(id), "submitTime": {"date": curTime.strftime("%d-%m-%Y"), "time": curTime.strftime(
-                "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0}}
+                "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0} , "result": {"Virus": 0, "Virus_name": []} }
         )
 
     return redirect(url_for('dashboard'))

@@ -9,7 +9,7 @@
 
     <!-- Bootstrap css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+     <script src = "https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin = "anonymous" referrerpolicy = "no-referrer"> </script>
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -86,7 +86,11 @@
         <h4>Completed Scans</h4>
         <div class="list">
             {% for item in completed %}
-            <div class="indexRow row">
+            	{% if (item["result"]["Virus"]) == 0 %}
+            		<div class="indexRow row" style="background-color:#6FEE7E;">
+            	{% else %}
+            		<div class="indexRow row" style="background-color:#ff8080;">
+            	{% endif %}
                 <div class="col-sm">
                     <h6>Scan #{{ item["_id"] }}</h6>
                     <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
@@ -94,11 +98,13 @@
                 <div class="col-sm">
                     <h6>Size: {{ item['size'] }}</h6>
                     <h6>Number of files: {{ item['files']['total'] }}</h6>
+                    
                 </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div id={{ item["_id"] }} class="progress-bar" style="width: 100%;"></div>
-                    </div>
+                <div class="col-sm-5 center">
+                    {% if (item["result"]["Virus"]) != 0 %}
+                    <button type="button" class="btn btn-outline-danger" onclick = "CreateTextFile({{ item["result"]["Virus_name"] }});">Report</button>
+                    {% endif %}
+                    <h5>Number of virus : {{ item["result"]["Virus"] }}</h5>
                 </div>
             </div>
             {% endfor %}
@@ -106,10 +112,20 @@
     </div>
 
     <script>
+
         function openUploader() {
             window.location = "{{ newScanUrl }}";
         }
     </script>
+
+   <script>
+      function CreateTextFile(data) {
+         var blob = new Blob([data], {
+            type: "text/plain;charset=utf-8",
+         });
+         saveAs(blob, "Report.txt");
+      }
+   </script>
 
     <script>
         var source = new EventSource("/progress");

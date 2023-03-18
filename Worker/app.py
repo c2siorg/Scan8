@@ -14,7 +14,6 @@ from scanJob import scan
 listen = ['default']
 
 redis_url = os.getenv('REDISTOGO_URL', os.getenv("REDIS_URL"))
-
 conn = redis.from_url(redis_url)
 
 if __name__ == '__main__':
