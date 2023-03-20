@@ -31,7 +31,7 @@ def index():
     queued = queuedScans.find()
     running = runningScans.find()
     completed = completedScans.find()
-    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, newScanUrl=url_for('newScan'))
+    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, newScanUrl=url_for('newScan'),stopscan=url_for('stopscan',id='<id>'))
 
 
 def new_scan():
@@ -64,6 +64,15 @@ def upload_files():
 
     return redirect(url_for('dashboard'))
 
+def stopscan(id):
+    if request.method == 'GET': 
+        print(id)
+        try:
+            runningScans.delete_one({'_id':id})
+        except:
+            print("Error")
+    
+    return redirect(url_for('dashboard'))
 
 def progress():
     def generate():
@@ -75,7 +84,6 @@ def progress():
                     (item["files"]["completed"] / item["files"]["total"]) * 100)
 
             yield "data:" + json.dumps(x) + "\n\n"
-
     return Response(generate(), mimetype='text/event-stream')
 
 
@@ -86,5 +94,7 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+app.add_url_rule("/stopscan/<id>", endpoint="stopscan",
+                 view_func=stopscan, methods=['GET'])
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)

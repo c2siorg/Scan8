@@ -78,6 +78,7 @@
                     <div class="progress">
                         <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
                     </div>
+                    <button type="button" name="button" class="btn btn-danger mt-3" onclick="stopscan('{{ item['_id'] }}')">Stop</button>
                 </div>
             </div>
             {% endfor %}
@@ -108,6 +109,13 @@
     <script>
         function openUploader() {
             window.location = "{{ newScanUrl }}";
+        }
+        // http://localhost:5000/stopscan/4f9b7edf-8998-4028-9418-0fbc5e6ea2a7
+        async function stopscan(id){
+            let to_do = confirm("Do you want to stop scan")
+            if(to_do){
+                await fetch(`http://localhost:5000/stopscan/${id}`)
+            }
         }
     </script>
 
