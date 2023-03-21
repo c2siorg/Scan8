@@ -1,4 +1,4 @@
-Scan8
+Scan8 (Open for GSoC and Hacktoberfest)
 ========
 
 Scan8 is a distributed scanning system for detecting trojans, viruses, malware, and other malicious threats embedded in files. The system will allow one to submit a list of URLs or files and get the scan results in return.  

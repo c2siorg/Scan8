@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
 import uuid
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 import json
 from hurry.filesize import size, si
 from dotenv import load_dotenv
@@ -31,7 +31,7 @@ def index():
     queued = queuedScans.find()
     running = runningScans.find()
     completed = completedScans.find()
-    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, newScanUrl=url_for('newScan'))
+    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, newScanUrl=url_for('newScan'),delete_completed=url_for('deleteCompleted', file='<file>'))
 
 
 def new_scan():
@@ -79,6 +79,17 @@ def progress():
     return Response(generate(), mimetype='text/event-stream')
 
 
+def delete_completed(file):
+    try:
+        file = completedScans.find_one({'_id': file})
+        if file:
+            file_id = file['_id']
+            completedScans.delete_one({'_id': file_id})
+            return redirect(url_for('dashboard'))        
+    except errors.OperationFailure as e:
+        return {"message": f"Error: {e}"}, 400
+
+
 app.add_url_rule("/", endpoint="dashboard", view_func=index, methods=['GET'])
 app.add_url_rule("/newScan", endpoint="newScan",
                  view_func=new_scan, methods=['GET'])
@@ -86,5 +97,8 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+app.add_url_rule("/deleteCompleted/<file>", endpoint="deleteCompleted",
+                 view_func=delete_completed, methods=['GET', 'POST'])
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
