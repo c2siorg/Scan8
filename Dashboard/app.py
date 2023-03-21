@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, send_file
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
 import uuid
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 import json
 from hurry.filesize import size, si
 from dotenv import load_dotenv
@@ -12,6 +12,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.getenv("UPLOAD_DIRECTORY")
+app.config['RESULTS_FOLDER'] = os.getenv("RESULTS_PATH")
 
 mongodbHost = os.getenv("MONGODB_HOST")
 mongodbPort = int(os.getenv("MONGODB_PORT"))
@@ -31,7 +32,8 @@ def index():
     queued = queuedScans.find()
     running = runningScans.find()
     completed = completedScans.find()
-    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, newScanUrl=url_for('newScan'))
+    return render_template('index.html', prequeued=prequeued, queued=queued, running=running, completed=completed, 
+                           newScanUrl=url_for('newScan'),download_result=url_for('downloadResult', file='<file>'))
 
 
 def new_scan():
@@ -78,6 +80,14 @@ def progress():
 
     return Response(generate(), mimetype='text/event-stream')
 
+def download_result(file):
+    try:
+        file = completedScans.find_one({'_id': file})
+        if file:
+            filePath = app.config['RESULTS_FOLDER'] + "/" + file['_id'] + "/" + file['_id'] + ".json"
+            return send_file(filePath, as_attachment=True)      
+    except errors.OperationFailure as e:
+        return {"message": f"Error: {e}"}, 400
 
 app.add_url_rule("/", endpoint="dashboard", view_func=index, methods=['GET'])
 app.add_url_rule("/newScan", endpoint="newScan",
@@ -86,5 +96,7 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+app.add_url_rule("/downloadResult/<file>", endpoint="downloadResult",
+                 view_func=download_result, methods=['GET', 'POST'])
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)

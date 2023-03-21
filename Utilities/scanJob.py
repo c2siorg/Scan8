@@ -27,10 +27,22 @@ def scan(filePath):
         runningScans.insert_one(queued[0])
         queuedScans.delete_one({"_id": id})
     result = cd.scan(filePath)
-    filename = id+"_"+name+"_"+".json"
-    filename = resultsPath+"/"+filename
-    with open(filename, "a+") as file:
-        json.dump(result, file, indent=4)
+    dirPath = os.path.join(resultsPath, str(id))
+    if not os.path.exists(dirPath):
+        os.mkdir(dirPath)
+    filename = str(id)+".json"
+    filePath = dirPath + "/" + filename
+    with open(filePath, "a+") as file:
+        file.seek(0)
+        if os.path.getsize(filePath) == 0:
+            jsonData = []
+        else:
+            fileData = file.read()
+            jsonData = json.loads(fileData)
+        jsonData.append(result)
+        file.seek(0)
+        file.truncate()
+        json.dump(jsonData, file, indent=4)
     
     runningScans.update_one({"_id": id}, {'$inc': {'files.completed': 1}})
 
