@@ -82,9 +82,7 @@ def progress():
 def delete_completed(file):
     try:
         file = completedScans.find_one({'_id': file})
-        print(file)
         if file:
-            # Get the file's ID and delete it
             file_id = file['_id']
             completedScans.delete_one({'_id': file_id})
             return redirect(url_for('dashboard'))        
