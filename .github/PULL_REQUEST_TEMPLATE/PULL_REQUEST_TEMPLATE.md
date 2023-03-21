@@ -2,7 +2,7 @@
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
-Fixes # (issue)
+This pull request adds a new feature according to the issue to Scan8 that allows users to download completed scan results. The download button has been added to the "Completed Scans" section of the tool and works as expected.
 
 
 ## Type of change
