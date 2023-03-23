@@ -1,0 +1,37 @@
+
+            {% for item in prequeued %}
+            <div class="indexRow row">
+                <div class="col-sm">
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
+                </div>
+                <div class="col-sm">
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
+                </div>
+                <div class="col-sm-5">
+                    <div class="progress">
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for item in queued %}
+            <div class="indexRow row">
+                <div class="col-sm">
+                    <h6>Scan #{{ item["_id"] }}</h6>
+                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
+                </div>
+                <div class="col-sm">
+                    <h6>Size: {{ item['size'] }}</h6>
+                    <h6>Number of files: {{ item['files']['total'] }}</h6>
+                </div>
+                <div class="col-sm-5">
+                    <div class="progress">
+                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+

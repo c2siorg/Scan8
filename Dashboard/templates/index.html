@@ -15,104 +15,31 @@
 
     <title>Scan8</title>
 </head>
-
 <body>
-    <div class="container">
+<div id="p1">
 
+	</div>
+    <div class="container">
 
         <h1>Scan8</h1>
         <button type="button" name="button" class="btn btn-outline-secondary" onclick="openUploader()">New Scan</button>
 
         <h4>Queued Scans</h4>
-        <div class="list">
-            {% for item in prequeued %}
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #{{ item["_id"] }}</h6>
-                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: {{ item['size'] }}</h6>
-                    <h6>Number of files: {{ item['files']['total'] }}</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-
-            {% for item in queued %}
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #{{ item["_id"] }}</h6>
-                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: {{ item['size'] }}</h6>
-                    <h6>Number of files: {{ item['files']['total'] }}</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+        <div id="queue" class="list">
+ 
         </div>
 
         <h4>Running Scans</h4>
-        <div class="list">
-            {% for item in running %}
-            <div class="indexRow row">
-                <div class="col-sm">
-                    <h6>Scan #{{ item["_id"] }}</h6>
-                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: {{ item['size'] }}</h6>
-                    <h6>Number of files: {{ item['files']['total'] }}</h6>
-                </div>
-                <div class="col-sm-5">
-                    <div class="progress">
-                        <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+        <div id="running" class="list">
+         
         </div>
 
         <h4>Completed Scans</h4>
-        <div class="list">
-            {% for item in completed %}
-            	{% if (item["result"]["Virus"]) == 0 %}
-            		<div class="indexRow row" style="background-color:#6FEE7E;">
-            	{% else %}
-            		<div class="indexRow row" style="background-color:#ff8080;">
-            	{% endif %}
-                <div class="col-sm">
-                    <h6>Scan #{{ item["_id"] }}</h6>
-                    <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
-                </div>
-                <div class="col-sm">
-                    <h6>Size: {{ item['size'] }}</h6>
-                    <h6>Number of files: {{ item['files']['total'] }}</h6>
-                    
-                </div>
-                <div class="col-sm-5 center">
-                    {% if (item["result"]["Virus"]) != 0 %}
-                    <button type="button" class="btn btn-outline-danger" onclick = "CreateTextFile({{ item["result"]["Virus_name"] }});">Report</button>
-                    {% endif %}
-                    <h5>Number of virus : {{ item["result"]["Virus"] }}</h5>
-                </div>
-            </div>
-            {% endfor %}
+        <div id="completed" class="list">
         </div>
     </div>
-
+	
     <script>
-
         function openUploader() {
             window.location = "{{ newScanUrl }}";
         }
@@ -139,9 +66,40 @@
         }
     </script>
     <script>
-        setTimeout(function() {
-          window.location.reload(1);
-        }, 5000);
+        var source = new EventSource("/progress");
+        source.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+
+            for(id in data) {
+                var bar = document.getElementById(id);
+                bar.style.width = data[id]+'%';
+            }
+        }
+        
+    </script>
+    <script>
+    function Status(){
+    	const xhr = new XMLHttpRequest();
+		xhr.open("GET", "/status");
+		xhr.send();
+		xhr.responseType = "json";
+		xhr.onload = () => {
+		  if (xhr.readyState == 4 && xhr.status == 200) {
+			Status_update(xhr.response);
+		  } else {
+			console.log(`Error: ${xhr.status}`);
+		  }
+		};    
+		}
+	window.onload = Status;
+	var myInterval = setInterval(Status, 2000);
+    </script>
+        <script>
+    function Status_update(resp){
+    	document.getElementById("queue").innerHTML = resp["prequeued"];
+    	document.getElementById("running").innerHTML = resp["running"];
+    	document.getElementById("completed").innerHTML = resp["completed"];
+		}
     </script>
 
 </body>
