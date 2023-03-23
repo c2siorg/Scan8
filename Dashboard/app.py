@@ -24,8 +24,17 @@ runningScans = scan8['runningScans']
 completedScans = scan8['completedScans']
 
 # TODO: add a caching layer to all routes
+    
+    
+def status():
+    prequeued = list(prequeuedScans.find())
+    queued = list(queuedScans.find())
+    running = list(runningScans.find())
+    completed = list(completedScans.find())
+    return({"prequeued": render_template('prequeued.html', prequeued=prequeued, queued=queued) , "running": render_template('running.html', running=running) , "completed": render_template('completed.html', completed=completed)})
+    	
 
-
+    
 def index():
     prequeued = prequeuedScans.find()
     queued = queuedScans.find()
@@ -59,7 +68,7 @@ def upload_files():
             
         scan8.prequeuedScans.insert_one(
             {"_id": str(id), "submitTime": {"date": curTime.strftime("%d-%m-%Y"), "time": curTime.strftime(
-                "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0}}
+                "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0} , "result": {"Virus": 0, "Virus_name": []} }
         )
 
     return redirect(url_for('dashboard'))
@@ -86,5 +95,7 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+app.add_url_rule("/status", endpoint="status",
+                 view_func=status , methods=['GET', 'POST'])
 if __name__ == "__main__":
     app.run(host="0.0.0.0",debug=True)
