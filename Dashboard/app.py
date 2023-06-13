@@ -23,6 +23,7 @@ socketio = SocketIO(app, message_queue=os.environ.get('REDIS_URL'),cors_allowed_
 
 
 app.config['UPLOAD_FOLDER'] = upload_path
+app.config['UPLOAD_FOLDER'] = os.getenv("UPLOAD_DIRECTORY")
 
 mongodbHost = os.getenv("MONGODB_HOST")
 mongodbPort = int(os.getenv("MONGODB_PORT"))
