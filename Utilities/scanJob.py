@@ -1,6 +1,9 @@
 from Webcrawler import WebCrawler
 from pymongo import MongoClient
 from redis import Redis
+import requests
+from redis import Redis
+import socketio
 import clamd
 import os
 import json
@@ -84,6 +87,10 @@ def scan(filePath):
         completedScans.insert_one(running[0])
         runningScans.delete_one({"_id": id})
         shutil.rmtree(upload_path + "/" + id)
+
+        _running = list(runningScans.find())
+        _completed = list(completedScans.find({"_id": id}))
+        redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
 
         _running = list(runningScans.find())
         _completed = list(completedScans.find({"_id": id}))
