@@ -1,9 +1,6 @@
 from Webcrawler import WebCrawler
 from pymongo import MongoClient
 from redis import Redis
-import requests
-from redis import Redis
-import socketio
 import clamd
 import os
 import json
