@@ -1,7 +1,5 @@
 from pymongo import MongoClient
-import requests
 from redis import Redis
-import socketio
 import clamd
 import os
 from dotenv import load_dotenv
