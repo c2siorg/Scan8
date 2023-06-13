@@ -7,10 +7,17 @@ from pymongo import MongoClient
 import json
 from hurry.filesize import size, si
 from dotenv import load_dotenv
+from flask_cors import CORS
+from redis import Redis
+from threading import Thread
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app,resources={r"/*":{"origins":"*"}})
+socketio = SocketIO(app, message_queue=os.environ.get('REDIS_URL'),cors_allowed_origins='*')
+
+
 app.config['UPLOAD_FOLDER'] = os.getenv("UPLOAD_DIRECTORY")
 
 mongodbHost = os.getenv("MONGODB_HOST")
@@ -23,8 +30,28 @@ queuedScans = scan8['queuedScans']
 runningScans = scan8['runningScans']
 completedScans = scan8['completedScans']
 
-# TODO: add a caching layer to all routes
+redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT")))
+redis_pubsub = redis_client.pubsub()
+redis_pubsub.subscribe('scan_progress')
 
+# Socket implementation
+def background_thread():
+
+    def parse_message(message):
+        json_str = message.decode('utf-8')
+        return json.loads(json_str)
+
+    for message in redis_pubsub.listen():
+        if message['type'] == 'message':
+            json_data = parse_message(message['data'])
+            socketio.emit('update', {'data': json_data})
+
+@socketio.on('connect')
+def connect():
+    print("Started background thread")
+    thread = Thread(target=background_thread)
+    thread.daemon = True
+    thread.start()
 
 def index():
     prequeued = prequeuedScans.find()
@@ -36,7 +63,6 @@ def index():
 
 def new_scan():
     return render_template('newScan.html')
-
 
 def upload_files():
     if request.method == 'POST':
@@ -86,5 +112,8 @@ app.add_url_rule("/progress", endpoint="progress",
                  view_func=progress, methods=['GET'])
 app.add_url_rule("/upload", endpoint="upload",
                  view_func=upload_files, methods=['GET', 'POST'])
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.debug = True
+    socketio.run(app, log_output=True)
+   
