@@ -1,4 +1,7 @@
 from pymongo import MongoClient
+import requests
+from redis import Redis
+import socketio
 import clamd
 import os
 from dotenv import load_dotenv
@@ -18,6 +21,8 @@ queuedScans = scan8['queuedScans']
 runningScans = scan8['runningScans']
 completedScans = scan8['completedScans']
 
+redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT")))
+
 # RQ job
 def scan(filePath):
     id = filePath.split("/")[-2]
@@ -26,6 +31,10 @@ def scan(filePath):
     if(len(queued) != 0):
         runningScans.insert_one(queued[0])
         queuedScans.delete_one({"_id": id})
+        _queued = list(queuedScans.find())
+        _running = list(runningScans.find({"_id": id}))
+        redis_client.publish('scan_progress', json.dumps({ 'queued' : _queued, 'running': _running }))
+    
     result = cd.scan(filePath)
     filename = id+"_"+name+"_"+".json"
     filename = resultsPath+"/"+filename
@@ -39,4 +48,7 @@ def scan(filePath):
         completedScans.insert_one(running[0])
         runningScans.delete_one({"_id": id})
 
-    
+        _running = list(runningScans.find())
+        _completed = list(completedScans.find({"_id": id}))
+        redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
+
