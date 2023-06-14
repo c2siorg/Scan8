@@ -7,6 +7,7 @@ from pymongo import MongoClient
 import json
 from hurry.filesize import size, si
 from dotenv import load_dotenv
+from flask_socketio import SocketIO
 from flask_cors import CORS
 from redis import Redis
 from threading import Thread
