@@ -5,10 +5,11 @@
     <meta charset="utf-8">
 
     <!-- custom css -->
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,14 +25,19 @@
         <h4>New Scan</h4>
         <form action='/upload' method="POST" enctype="multipart/form-data">
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="dir" id="customFile" onchange="update()" webkitdirectory mozdirectory>
+                <input type="file" class="custom-file-input" name="dir" id="customFile" onchange="update()">
                 <label class="custom-file-label" for="customFile" id="chooseFileLabel">Choose file</label>
+                <select name="upload-type" id="upload-type" class="custom-select-sm">
+                    <option value="folder">Folder</option>
+                    <option value="file">File</option>
+
+                </select>
             </div>
 
             <div class="container">
                 <div class="row">
                     <div class="col-sm d-flex justify-content-center">
-                        <a href="/"class="btn btn-outline-danger">Cancel</a>
+                        <a href="/" class="btn btn-outline-danger">Cancel</a>
                     </div>
                     <div class="col-sm d-flex justify-content-center">
                         <input class="btn btn-outline-success" type='submit' value='Upload' id="upload" disabled>
@@ -40,12 +46,12 @@
             </div>
         </form>
     </div>
-    
+
     <script>
         function update() {
             var numFiles = document.getElementById('customFile').files.length;
             var msg;
-            if(numFiles > 0) {
+            if (numFiles > 0) {
                 document.getElementById('upload').disabled = false;
                 msg = numFiles + ' file(s) uploaded';
             } else {
@@ -55,7 +61,22 @@
             document.getElementById('chooseFileLabel').textContent = msg;
         }
     </script>
-
+    <script>
+        const fileInput = document.getElementById('customFile');
+        const uploadTypeSelect = document.getElementById('upload-type');
+        function updateFileInput() {
+            const uploadType = uploadTypeSelect.value;
+            if (uploadType === 'folder') {
+                fileInput.setAttribute('webkitdirectory', '');
+                fileInput.setAttribute('mozdirectory', '');
+            }
+            else {
+                fileInput.removeAttribute('webkitdirectory');
+                fileInput.removeAttribute('mozdirectory');
+            }
+        }
+        uploadTypeSelect.addEventListener('change', updateFileInput);
+    </script>
 
 </body>
 
