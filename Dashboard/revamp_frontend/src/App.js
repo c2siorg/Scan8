@@ -1,9 +1,11 @@
-import React from 'react';
+import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import NavBar from "./components/Navbar";
 
 function App() {
-  return (
+    return (
     <div>
-      "Hello, world!"
+      <NavBar />
     </div>
   );
 }
