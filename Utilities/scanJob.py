@@ -63,6 +63,14 @@ def scan(filePath):
         redis_client.publish('scan_progress', json.dumps({ 'queued' : _queued, 'running': _running }))
     
     result = cd.scan(filePath)
+    result = (result[(list(result.keys())[0])])
+    if result[0] == "FOUND":
+    	data = list(runningScans.find({"_id": id}))
+    	runningScans.update_one({"_id": id}, {"$set": {'result.Virus': (((data[0])['result'])['Virus']) + 1}})
+    	result_list=(((data[0])['result'])['Virus_name'])
+    	result_list.append(result[1])
+    	runningScans.update_one({"_id": id}, {"$set": {'result.Virus_name': result_list }})
+    	
     filename = id+"_"+name+"_"+".json"
     filename = resultsPath+"/"+filename
     with open(filename, "a+") as file:
