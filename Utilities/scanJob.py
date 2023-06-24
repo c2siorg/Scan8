@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import json
 from hurry.filesize import size, si
 from datetime import datetime
-
+import shutil
 
 load_dotenv()
 upload_path = os.getenv("UPLOAD_DIRECTORY")
@@ -82,6 +82,7 @@ def scan(filePath):
     if(len(running) != 0 and running[0]['files']['total'] == running[0]['files']['completed']):
         completedScans.insert_one(running[0])
         runningScans.delete_one({"_id": id})
+        shutil.rmtree(upload_path + "/" + id)
 
         _running = list(runningScans.find())
         _completed = list(completedScans.find({"_id": id}))
