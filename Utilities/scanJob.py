@@ -1,12 +1,16 @@
+from Webcrawler import WebCrawler
 from pymongo import MongoClient
 from redis import Redis
 import clamd
 import os
 from dotenv import load_dotenv
 import json
+from hurry.filesize import size, si
+from datetime import datetime
+
 
 load_dotenv()
-
+upload_path = os.getenv("UPLOAD_DIRECTORY")
 resultsPath = os.getenv("RESULTS_PATH")
 cd = clamd.ClamdUnixSocket()
 
@@ -15,11 +19,36 @@ mongodbPort = int(os.getenv("MONGODB_PORT"))
 
 client = MongoClient(mongodbHost, mongodbPort)
 scan8 = client['scan8']
+runninglinks = scan8['runninglinks']
+prequeuedScans = scan8['prequeuedScans']
 queuedScans = scan8['queuedScans']
 runningScans = scan8['runningScans']
 completedScans = scan8['completedScans']
 
 redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT")))
+
+def test(url,folder):
+	try:
+		crawler = WebCrawler()
+		urls = crawler.get_urls(url)
+		urls.add(url)
+		for url in urls:
+		    print(url)
+		    crawler.download_file(url, upload_path + "/"+ folder)
+		curTime = datetime.now()
+		dirSize = 0
+		numFiles = 0
+		for element in os.scandir(upload_path + "/"+ folder):
+			dirSize+=os.path.getsize(element)
+			numFiles += 1
+		runninglinks.delete_one({"_id": folder})	
+		scan8.prequeuedScans.insert_one(
+		    {"_id": str(folder), "submitTime": {"date": curTime.strftime("%d-%m-%Y"), "time": curTime.strftime(
+		        "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0}, "result": {"Virus": 0, "Virus_name": []}}
+		)
+	except:
+		runninglinks.delete_one({"_id": folder})	
+
 
 # RQ job
 def scan(filePath):
