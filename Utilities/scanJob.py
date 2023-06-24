@@ -3,8 +3,8 @@ from pymongo import MongoClient
 from redis import Redis
 import clamd
 import os
-from dotenv import load_dotenv
 import json
+from dotenv import load_dotenv
 from hurry.filesize import size, si
 from datetime import datetime
 import shutil
@@ -27,7 +27,7 @@ completedScans = scan8['completedScans']
 
 redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT")))
 
-def test(url,folder):
+def webcrawler(url,folder):
 	try:
 		crawler = WebCrawler()
 		urls = crawler.get_urls(url)
@@ -47,6 +47,7 @@ def test(url,folder):
 		        "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0}, "result": {"Virus": 0, "Virus_name": []}}
 		)
 	except:
+		print("Taking too long to download files")
 		runninglinks.delete_one({"_id": folder})	
 
 

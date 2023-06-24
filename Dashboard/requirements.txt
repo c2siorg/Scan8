@@ -10,3 +10,6 @@ Werkzeug==2.0.1
 flask_socketio==5.3.4
 gevent-websocket==0.10.1
 flask_cors==3.0.10
+shortuuid==1.0.1
+validators~=0.18.2
+datetime~=4.3

@@ -11,7 +11,7 @@ load_dotenv()
 utilitiesPath = os.getenv("UTILITIES_PATH")
 
 sys.path.insert(0, utilitiesPath)
-from scanJob import scan,test
+from scanJob import scan,webcrawler
 
 q = Queue(connection=Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT"))))
 
@@ -44,7 +44,7 @@ if __name__ == '__main__':
         if(len(link) > 0):
             id = link[0]["_id"]
             url = link[0]["link"]
-            q.enqueue(test, url, id, retry=Retry(max=2))
+            q.enqueue(webcrawler, url, id, retry=Retry(max=2))
             links.delete_one({"_id": id})
             runninglinks.insert_one({"_id": id})
 
