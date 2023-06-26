@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useState } from "react";
 
-const ScanModal = ({ modal, setModal }) => {
+const UploadModal = ({ modal, setModal }) => {
   const inputRef = useRef(null);
   const [upload, setUpload] = useState(true);
   const [msg, setMsg] = useState("");
@@ -23,6 +23,7 @@ const ScanModal = ({ modal, setModal }) => {
       .then((response) => {
         //console.log(response);
         setModal(false);
+        setMsg("");
       })
       .catch((err) => console.error(err));
   }
@@ -91,4 +92,4 @@ const ScanModal = ({ modal, setModal }) => {
     </Modal>
   );
 };
-export default ScanModal;
+export default UploadModal;
