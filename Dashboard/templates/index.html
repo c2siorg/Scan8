@@ -1,30 +1,72 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
-
     <!-- Bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Viewport -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Scan8</title>
 </head>
+<nav class="navbar bg-dark">
+  <div class="container-fluid">
+    <div class="navbar-brand fs-1 text-primary">Scan8</div>
+  </div>
+</nav>
+<div class="p-2" style="background-color: #ff8989;" id="error" hidden>
+	<center>Invalid url</center>
+</div>
+<body style="background-color: #e4e1e0;">
+    <div class="container mt-4">
+        <h1>Dashboad</h1>
+	<div class="py-2"></div>
+	<div>
+	<button id="link_button" type="button" class="btn btn-primary" onclick="data('link_button','link','data_file','file_button')">Link Scan</button>
+	<button id="file_button" type="button" class="btn btn-outline-primary" onclick="data('file_button','data_file','link','link_button')">File Scan</button>
+	</div>
+	
+	<div class="border-primary rounded p-4" style="border-style: solid;border-width: 4px;">
+		<form action='/link' method="POST" id="link">
+            <div class="custom-file">
+                <label class="form-label">Link</label>
+				<input class="form-control" type="text" name="link" placeholder="https://example.com">
+            </div>
+			<div class="py-3 d-flex justify-content-end">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+     	</form>
+     	
+     	<form action='/upload' method="POST" enctype="multipart/form-data" id="data_file" hidden>
+			<label class="form-label">File</label>
+			<div class="custom-file">
+				<input type="file" class="custom-file-input" name="dir" id="customFile" onchange="update()" webkitdirectory mozdirectory>
+				<label class="custom-file-label" for="customFile" id="chooseFileLabel">Choose file</label>
+			</div>
 
-<body>
-    <div class="container">
-
-
-        <h1>Scan8</h1>
-        <button type="button" name="button" class="btn btn-outline-secondary" onclick="openUploader()">New Scan</button>
-
+			<div class="py-3 d-flex justify-content-end">
+				<button type="submit" value='Upload' id="upload" class="btn btn-primary">Submit</button>
+			</div>
+     	</form>
+	</div>
+	<div class="py-2"></div>
+	<div class="border-primary rounded p-4" style="border-style: solid;border-width: 4px;">
+	{% if runninglink %}
+		<div class="row">
+			<div class="col-auto">
+				<h4> URL Scanning </h4>
+			</div>
+			<div class="col">
+				<div class="spinner-border text-primary" role="status">
+				  <span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		</div>
+	{% endif %}
         <h4>Queued Scans</h4>
-        <div class="list">
+        <div class="p-4">
             {% for item in prequeued %}
             <div class="indexRow row">
                 <div class="col-sm">
@@ -63,7 +105,7 @@
         </div>
 
         <h4>Running Scans</h4>
-        <div class="list">
+        <div class="p-4">
             {% for item in running %}
             <div class="indexRow row">
                 <div class="col-sm">
@@ -75,6 +117,7 @@
                     <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
+                    <h6>Virus: {{ item['result']['Virus'] }}</h6>
                     <div class="progress">
                         <div id={{ item["_id"] }} class="progress-bar" style="width: 0%;"></div>
                     </div>
@@ -84,9 +127,9 @@
         </div>
 
         <h4>Completed Scans</h4>
-        <div class="list">
+        <div class="p-4">
             {% for item in completed %}
-            <div class="indexRow row">
+            <div class="indexRow row" style= {% if item['result']['Virus'] %} "background-color: #ffa2a2;"{% else %} "background-color: #a8ffa2;" {% endif %}>
                 <div class="col-sm">
                     <h6>Scan #{{ item["_id"] }}</h6>
                     <h6>Submitted: {{ item["submitTime"]["date"] }} {{ item["submitTime"]["time"] }}</h6>
@@ -96,6 +139,7 @@
                     <h6>Number of files: {{ item['files']['total'] }}</h6>
                 </div>
                 <div class="col-sm-5">
+                    <h6>Virus: {{ item['result']['Virus'] }}</h6>
                     <div class="progress">
                         <div id={{ item["_id"] }} class="progress-bar" style="width: 100%;"></div>
                     </div>
@@ -103,12 +147,20 @@
             </div>
             {% endfor %}
         </div>
+        </div>
     </div>
-
+    <div class="py-2"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script>
         function openUploader() {
             window.location = "{{ newScanUrl }}";
         }
+        function delayederror() {
+        document.getElementById("error").hidden=false;
+		setTimeout(function() {
+			document.getElementById("error").hidden=true;
+		  }, 2000);
+		}
     </script>
 
     <script>
@@ -121,13 +173,53 @@
                 bar.style.width = data[id]+'%';
             }
         }
+        function update() {
+            var numFiles = document.getElementById('customFile').files.length;
+            var msg;
+            if(numFiles > 0) {
+                document.getElementById('upload').disabled = false;
+                msg = numFiles + ' file(s) uploaded';
+            } else {
+                document.getElementById('upload').disabled = true;
+                msg = "Choose File";
+            }
+            document.getElementById('chooseFileLabel').textContent = msg;
+        }
+        function data(a,b,c,d){
+			document.getElementById(a).className="btn btn-primary";
+			document.getElementById(b).hidden=false;
+			document.getElementById(c).hidden=true;
+			document.getElementById(d).className="btn btn-outline-primary";
+		}
+    </script>
+    <script>
+    document.getElementById("link").addEventListener("submit", function(event) {
+	  event.preventDefault();
+	  var formElement = document.getElementById("link");
+	  var formData = new FormData(formElement);
+
+	  fetch("/link", {
+		method: "POST",
+		body: formData
+	  })
+	  .then(function(response) {
+		return response.text();
+	  })
+	  .then(function(data) {
+		if(data=="error"){
+		delayederror();
+		}
+	  })
+	  .catch(function(error) {
+		console.error(error); 
+	  });
+	});
     </script>
     <script>
         setTimeout(function() {
           window.location.reload(1);
-        }, 5000);
+        }, 10000);
     </script>
-
 </body>
 
 </html>
