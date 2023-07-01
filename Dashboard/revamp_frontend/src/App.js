@@ -3,12 +3,13 @@ import { Container } from "react-bootstrap";
 import NavBar from "./components/Navbar";
 import io from "socket.io-client";
 import Scan from "./components/Scan";
-import ScanModal from "./components/Modal";
+import UploadModal from "./components/UploadModal";
 
 function App() {
-  //const flaskUrl = process.env.REACT_APP_FLASK_URL;
+  const flaskUrl = process.env.REACT_APP_FLASK_URL;
   const [data, setData] = useState({ queued: [], running: [], completed: [] });
   const [modal, setModal] = useState(false);
+ 
 
   return (
     <div>
@@ -21,7 +22,7 @@ function App() {
           <p>Submitted</p>
         </div>
       </Container>
-      {data ? JSON.stringify(data) : "Data"}
+      {/* {data ? JSON.stringify(data) : "Data"} */}
       <Container className="bg-white mx-auto p-0">
         <h4>Queued Scans</h4>
         {data.queued.length > 0 &&
@@ -35,7 +36,7 @@ function App() {
             <Scan item={item} variant={"success"} />
           ))}
       </Container>
-      <ScanModal modal={modal} setModal={setModal} />
+      <UploadModal modal={modal} setModal={setModal} />
     </div>
   );
 }
