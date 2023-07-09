@@ -10,6 +10,32 @@ function App() {
   const [data, setData] = useState({ queued: [], running: [], completed: [] });
   const [modal, setModal] = useState(false);
  
+  useEffect(() => {
+    const socket = io(flaskUrl);
+    // Set up listener for events from Flask-SocketIO server
+    socket.on("connect", () => console.log("Connected"));
+    socket.on("update", (res) => {
+      console.log(res);
+      setData((prevData) => ({
+        queued:
+          res?.queued 
+            ? res.queued
+            : prevData.queued,
+        running:
+          res?.running && res?.completed 
+            ? res.running
+            : [...prevData.running, ...res.running],
+        completed:
+          res?.completed
+            ? [...prevData.completed, ...res.completed]
+            : prevData.completed,
+      }));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div>
