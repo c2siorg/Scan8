@@ -44,7 +44,9 @@ if __name__ == '__main__':
         if(len(link) > 0):
             id = link[0]["_id"]
             url = link[0]["link"]
-            q.enqueue(webcrawler, url, id, retry=Retry(max=2))
+            prox = link[0]["proxy"]
+            proxy = {'http': prox, 'https': prox} if prox else None 
+            q.enqueue(webcrawler, url, id, proxy, retry=Retry(max=2))
             links.delete_one({"_id": id})
             runninglinks.insert_one({"_id": id})
 
