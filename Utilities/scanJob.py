@@ -27,14 +27,14 @@ completedScans = scan8['completedScans']
 
 redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT")))
 
-def webcrawler(url,folder):
+def webcrawler(url,folder,proxy):
 	try:
 		crawler = WebCrawler()
-		urls = crawler.get_urls(url)
+		urls = crawler.get_urls(url,proxy)
 		urls.add(url)
 		for url in urls:
 		    print(url)
-		    crawler.download_file(url, upload_path + "/"+ folder)
+		    crawler.download_file(url, upload_path + "/"+ folder, proxy)
 		curTime = datetime.now()
 		dirSize = 0
 		numFiles = 0
