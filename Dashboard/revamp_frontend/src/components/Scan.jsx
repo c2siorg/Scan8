@@ -65,7 +65,7 @@ const Scan = ({ item, variant }) => {
       </div>
 
       <div className="scan-progress">
-        <p>ID: Scan</p>
+        <p>ID: Scan {item._id} </p>
         <ProgressBar
           id={item._id}
           className="w-100 mt-0 h-25"
