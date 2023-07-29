@@ -115,9 +115,10 @@ def link():
     	try:
     		id = shortuuid.uuid()
     		link = request.form.get('link')
+    		proxy = request.form.get('proxy')
     		if not validators.url(link):
     			raise InvalidURLException("Invalid URL")
-    		scan8.links.insert_one({"_id": str(id), "link": link})
+    		scan8.links.insert_one({"_id": str(id), "link": link, "proxy": proxy})
     		return "ok"
     	except:
     		return "error"
