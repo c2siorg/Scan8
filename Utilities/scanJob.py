@@ -89,3 +89,7 @@ def scan(filePath):
         _completed = list(completedScans.find({"_id": id}))
         redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
 
+        _running = list(runningScans.find())
+        _completed = list(completedScans.find({"_id": id}))
+        redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
+
