@@ -78,6 +78,8 @@ def scan(filePath):
         json.dump(result, file, indent=4)
     
     runningScans.update_one({"_id": id}, {'$inc': {'files.completed': 1}})
+    _running = list(runningScans.find())
+    redis_client.publish('scan_progress', json.dumps({ 'running': _running }))
 
     running = list(runningScans.find({"_id": id}))
     if(len(running) != 0 and running[0]['files']['total'] == running[0]['files']['completed']):
@@ -88,8 +90,3 @@ def scan(filePath):
         _running = list(runningScans.find())
         _completed = list(completedScans.find({"_id": id}))
         redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
-
-        _running = list(runningScans.find())
-        _completed = list(completedScans.find({"_id": id}))
-        redis_client.publish('scan_progress', json.dumps({ 'completed' : _completed, 'running': _running }))
-

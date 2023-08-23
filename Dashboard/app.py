@@ -47,6 +47,15 @@ redis_client = Redis(host=os.getenv('REDIS_HOST'),port=int(os.getenv("REDIS_PORT
 redis_pubsub = redis_client.pubsub()
 redis_pubsub.subscribe('scan_progress')
 
+#get scans on socket connection
+def get_scans():
+    _queued = list(queuedScans.find())
+    _running = list(runningScans.find())
+    _completed = list(completedScans.find())
+
+    socketio.emit("update", {'queued':_queued, 'running':_running, 'completed':_completed})
+
+
 # Socket implementation
 def background_thread():
 
@@ -57,7 +66,7 @@ def background_thread():
     for message in redis_pubsub.listen():
         if message['type'] == 'message':
             json_data = parse_message(message['data'])
-            socketio.emit('update', {'data': json_data})
+            socketio.emit('update', json_data )
 
 @socketio.on('connect')
 def connect():
@@ -65,6 +74,7 @@ def connect():
     thread = Thread(target=background_thread)
     thread.daemon = True
     thread.start()
+    get_scans()
 
 def index():
     prequeued = prequeuedScans.find()
@@ -98,7 +108,7 @@ def upload_files():
                 "%H:%M:%S")}, "size": size(dirSize, system=si), "files": {"total": numFiles, "completed": 0}, "result": {"Virus": 0, "Virus_name": []}}
         )
 
-    return redirect(url_for('dashboard'))
+    return jsonify(success=True)
 
 def link():
     if request.method == 'POST':
