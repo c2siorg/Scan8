@@ -13,15 +13,15 @@ The ```Testing``` module helps in maintaining the application and facilitating t
 ![Scan8 application architecture](https://user-images.githubusercontent.com/54113320/129327795-bd8da18e-484a-428a-aa90-7cc063e11b7f.png)
 
 ## Dependencies
-* Language: ```Python 3.8.10```
-* Database: ```MongoDB```
-* Tools: ```redis-server clamav clamav-daemon```
+* Language: [```Python 3.8.10```](https://docs.python.org/3/using/index.html)
+* Database: [```MongoDB```](https://www.mongodb.com/docs/manual/installation/)
+* Tools: [```redis-server```](https://redis.io/docs/getting-started/installation/) [```clamav```](https://docs.clamav.net/manual/Installing.html) [```clamav-daemon```](https://docs.clamav.net/manual/Installing/Packages.html)
 
 > Specific dependencies for the ```Dashboard```, ```Coordinator``` and ```Worker``` can be found in the respective directories in ```requirements.txt``` file.
 
 
 ## Local Setup Guide
-1. Clone the current repository to your local machine using ```git clone```.
+1. Clone the current repository to your local machine using [```git clone```](https://git-scm.com/docs/git-clone).
 2. Install the dependencies as specified in ```Dependencies``` section.
 3. Make sure the ```mongod``` and ```clamav-daemon``` services are running in the background.
 4. Check the ```.env``` file to have the appropriate MongoDB and Redis host and port (variables are set to defaults).
